@@ -1,4 +1,4 @@
-import genToken from "../config/token"
+import genToken from "../config/token.js"
 import User from "../models/user.model.js"
 
 export const googleAuth = async (req, res) => {
@@ -16,7 +16,7 @@ export const googleAuth = async (req, res) => {
         res.cookie("token", token, {
             http:true,
             secure:false,
-            samwSite:"Strict",
+            sameSite:"Strict",
             maxAge:7 * 24 * 60 * 60 * 1000
         })
         return res.status(200).json(user)
