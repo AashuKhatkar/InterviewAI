@@ -4,9 +4,10 @@ import Home from './pages/Home'
 import Auth from './pages/Auth'
 import { useEffect } from 'react'
 import axios from 'axios'
-import { useDispatch } from 'react-redux'
-import { setUserData } from './redux/userSlice'
-import { ServerUrl } from './utils/constants'
+import { useDispatch } from 'react-redux';;
+import { setUserData } from './redux/userSlice';
+
+export const ServerUrl = "http://localhost:8000"
 
 function App() {
 
@@ -24,7 +25,7 @@ function App() {
     }
     getUser()
 
-  },[])
+  },[dispatch])
   return (
     <Routes>
       <Route path='/' element={<Home />} />
