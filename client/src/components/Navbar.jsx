@@ -1,16 +1,33 @@
 import React, { useState } from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { motion } from 'motion/react'
 import { BsRobot, BsCoin } from 'react-icons/bs'
 import { HiOutlineLogout } from 'react-icons/hi'
 import { FaUserAstronaut } from 'react-icons/fa'
 import { useNavigate } from 'react-router-dom'
+import axios from 'axios'
+import { ServerUrl } from '../App'
+import { setUserData } from '../redux/userSlice'
 
 function Navbar() {
     const {userData} = useSelector((state) => state.user)
     const [showCreditPopup,setShowCreditPopup] = useState(false)
     const [showUserPopup,setShowUserPopup] = useState(false)
     const navigate = useNavigate()
+    const dispatch = useDispatch()
+
+    const handleLogout = async() => {
+        try {
+            await axios.get(ServerUrl + "/api/auth/logout", 
+            {withCredentials:true})
+            dispatch(setUserData(null))
+            setShowCreditPopup(false)
+            navigate("/")
+
+        } catch (error) {
+            console.log(error)
+        }
+    }
 
     return (
         <div className = 'bg-[#f3f3f3] flex justify-center px-4 pt-6'>
@@ -28,7 +45,9 @@ function Navbar() {
 
                 <div className = 'flex items-center gap-6 relative'>
                     <div className = 'relative'>
-                        <button onClick={()=>setShowCreditPopup(!showCreditPopup)} 
+                        <button onClick={()=>{setShowCreditPopup(!showCreditPopup);
+                            setShowUserPopup(false)
+                        }}
                         className = 'flex items-center gap-2 bg-gray-100 px-4 py-2 rounded-full text-md hover:bg-gray-200 transition'>
                             <BsCoin size={20}/>
                             {userData?.credits || 0}
@@ -43,7 +62,9 @@ function Navbar() {
                     </div>
 
                     <div className = 'relative'>
-                        <button onClick={()=>setShowUserPopup(!showUserPopup)}
+                        <button onClick={()=>{setShowUserPopup(!showUserPopup);
+                            setShowCreditPopup(false)
+                        }}
                         className = 'w-9 h-9 bg-black text-white rounded-full flex items-center justify-center font-semibold'>
                             {userData ? userData?.name.slice(0,1).toUpperCase() : <FaUserAstronaut size={16}/>}
                         </button>
@@ -54,7 +75,7 @@ function Navbar() {
 
                                 <button onClick={()=>navigate("/history")} 
                                 className='w-full text-left text-sm py-2 hover:text-black text-gray-600'>Interview History</button>
-                                <button className='w-full text-left text-sm py-2 flex items-center gap-2 text-red-500'>
+                                <button onClick={handleLogout} className='w-full text-left text-sm py-2 flex items-center gap-2 text-red-500'>
                                     <HiOutlineLogout size={16}/>
                                     Logout</button>
                             </div>
