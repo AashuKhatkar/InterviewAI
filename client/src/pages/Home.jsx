@@ -46,7 +46,7 @@ function Home() {
                     <motion.p 
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
-                    transition={{ duration: 0.8} }
+                    transition={{ duration: 0.8 } }
                     className='text-gray-500 mt-6 max-w-2xl mx-auto text-lg'>
                         Role-based mock interviews with smart follow-ups, adaptive difficulty and real-time performance evaluation.
                     </motion.p>
@@ -79,6 +79,52 @@ function Home() {
                             View History
                         </motion.button>
                     </div>
+                </div>
+                <div className='flex flex-col md:flex-row justify-center items-center gap-10 mb-28'>
+                    {
+                        [
+                            {
+                                icon: <BsRobot size={24} />,
+                                step: "STEP 1",
+                                title: "Role & Experience Selection",
+                                desc: "AI adjusts difficulty based on selected job role."
+                            },
+                            {
+                                icon: <BsMic size={24} />,
+                                step: "STEP 2",
+                                title: "Smart Voice Interview",
+                                desc: "Dynamic follow-up questions based on your answers."
+                            },
+                            {
+                                icon: <BsClock size={24} />,
+                                step: "STEP 3",
+                                title: "Timer Based Simulation",
+                                desc: "Real interview pressure with time tracking."
+                            }
+                        ].map((item,index)=>(
+                            <motion.div key={index}
+                            initial={{ opacity: 0, y: 60 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.6 + index * 0.2 }}
+                            whileHover={{ rotate: 0, scale: 1.06 }}
+
+                            className={`
+                            relative bg-white rounded-3xl border-2 border-green-100 hover:border-green-500 p-10 w-80 max-w-[90%] shadow-md hover:shadow-2xl
+                            transition-all duration-300
+                            ${index === 0 ? "rotate-[-4deg]" : ""}
+                            ${index === 1 ? "rotate-[3deg] md:-mt-6 shadow-xl" : ""}
+                            ${index === 2 ? "rotate-[-3deg]" : ""}
+                            `}>
+
+                                <div className='absolute -top-8 left-1/2 -translate-x-1/2 bg-white
+                                border-2 border-green-500 text-green-600 w-16 h-16 rounded-2xl flex
+                                items-center justify-center shadow-lg'>
+                                    {item.icon}
+                                </div>
+
+                            </motion.div>
+                        ))
+                    }
                 </div>
            </div>
            {showAuth && <AuthModel onClose={()=>setShowAuth(false)}/>}
