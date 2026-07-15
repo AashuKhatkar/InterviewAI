@@ -122,6 +122,12 @@ function Home() {
                                     {item.icon}
                                 </div>
 
+                                <div className='pt-1 text-center'>
+                                    <div className='text-xs text-green-600 font-semibold mb-2 tracking-wider'>{item.step}</div>
+                                    <h3 className='font-semibold mb-3 text-lg'>{item.title}</h3>
+                                    <p className='text-sm text-gray-500 leading-relaxed'>{item.desc}</p>
+                                </div>
+
                             </motion.div>
                         ))
                     }
