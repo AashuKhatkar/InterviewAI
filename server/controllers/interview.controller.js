@@ -1,5 +1,6 @@
 import fs from 'fs'
 import * as pdfjsLib from 'pdfjs-dist/legacy/build/pdf.mjs';
+import { askAi } from '../services/openRouter.service.js';
 
 export const analyzeResume = async (req, res) => {
     try {
@@ -27,7 +28,43 @@ export const analyzeResume = async (req, res) => {
         }
 
         resumeText = resumeText.replace(/\s+/g, " ").trim();
-    } catch(error) {
 
+        const mesages = [
+            {
+                role: "system",
+                content: `Extract structured data from resume.
+                Return strictly JSON:
+                {
+                    "role": "string",
+                    "experience": "string",
+                    "projects": ["project1", "project2"],
+                    "skills": ["skill1", "skill2"]    
+                }`
+            },
+                {
+                    role: "user",
+                    content: resumeText
+                }
+        ];
+
+        const aiResponse = await askAi(messages)
+        const parsed = JSON.parse(aiResponse);
+        fs.unlinkSync(filepath)
+        res.json ({
+            role: parsed.role,
+            experience: parsed.experience,
+            projects: parsed.projects,
+            skills: parsed.skills,
+            resumeText
+        });
+
+    } catch(error) {
+        console.error(erroe);
+
+        if(req.file && fs.existsSync(req.file.path)) {
+            fs.unlinkSync(req.file.path);
+        }
+
+        res.status(500).json({ message: error.message });
     }
 }
