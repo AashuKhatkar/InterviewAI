@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { motion, moveItem } from 'motion/react'
 import {
     FaUserTie,
@@ -9,6 +9,9 @@ import {
 } from "react-icons/fa";
 
 function Step1SetUp({onStart}) {
+    const [role, setRole] = useState("");
+    const [experience, setExperience] = useState("");
+    const [mode, setMode] = useState("Technical");
     return (
         <motion.div 
         initial={{ opacity: 0 }}
@@ -62,7 +65,39 @@ function Step1SetUp({onStart}) {
 
                 </motion.div>
 
-                <motion.div>
+                <motion.div
+                    initial={{ x: 80, opacity: 0 }}
+                    animate={{ x: 0, opacity: 1 }}
+                    transition={{ duration: 0.7 }}
+                    className="p-12 bg-white">
+
+                        <h2 className = 'text-3xl font-bold text-gray-800 mb-8'>
+                            Interview Setup
+                        </h2>
+
+                        <div className = 'space-y-6'>
+                            <div className = 'relative'>
+                                <FaUserTie className = 'absolute top-4 left-4 text-gray-400' />
+                                <input type = 'text' placeholder = 'Enter role'
+                                className = 'w-full pl-12 pr-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-green-500 outline-none transition'
+                                onChange={(e)=>setRole(e.target.value)} value={role}/>
+                            </div>
+
+                            <div className = 'relative'>
+                                <FaBriefcase className = 'absolute top-4 left-4 text-gray-400' />
+                                <input type = 'text' placeholder = 'Experience (e.g. 2 years)'
+                                className = 'w-full pl-12 pr-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-green-500 outline-none transition'
+                                onChange={(e)=>setExperience(e.target.value)} value={experience}/>
+                            </div>
+
+                            <select value = {mode}
+                                onChange={(e)=>setMode(e.target.value)}
+                                className = 'w-full py-3 px-4 border border-gray-200 rounded-xl focus:ring-2 focus:ring-green-500 outline-none transition'>
+                                    <option value="Technical">Technical Interview</option>
+                                    <option value="HR">HR Interview</option>
+                            </select>
+
+                        </div>
 
                 </motion.div>
             </div>
