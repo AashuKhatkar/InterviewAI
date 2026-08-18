@@ -7,9 +7,9 @@ export const analyzeResume = async (req, res) => {
         if(!req.file) {
             return res.status(400).json({ message: "Resume Required" });
         }
-        const filepath = req.file.filepath
+        const filepath = req.file.path
 
-        const fileBuffer = req.filepath
+        // const fileBuffer = req.path
 
         const fileBuffer = await fs.promises.readFile(filepath)
         const uint8Array = new Uint8Array(fileBuffer)
@@ -29,7 +29,7 @@ export const analyzeResume = async (req, res) => {
 
         resumeText = resumeText.replace(/\s+/g, " ").trim();
 
-        const mesages = [
+        const messages = [
             {
                 role: "system",
                 content: `Extract structured data from resume.
@@ -59,7 +59,7 @@ export const analyzeResume = async (req, res) => {
         });
 
     } catch(error) {
-        console.error(erroe);
+        console.error(error);
 
         if(req.file && fs.existsSync(req.file.path)) {
             fs.unlinkSync(req.file.path);
