@@ -7,7 +7,7 @@ export const askAi = async(messages) => {
         }
         const response = await axios.post("https://openrouter.ai/api/v1/chat/completions", 
         {
-            model: "openai.gpt-4o-mini",
+            model: "openai/gpt-4o-mini",
             messages: messages
         },
         {
@@ -16,7 +16,7 @@ export const askAi = async(messages) => {
         'Content-Type': 'application/json',
         },});
 
-        const content = response?.data?.chice?.[0]?.message?.content;
+        const content = response?.data?.choices?.[0]?.message?.content;
 
         if(!content || !content.trim()) {
             throw new Error("AI returned empty response.");
